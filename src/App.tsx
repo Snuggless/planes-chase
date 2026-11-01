@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { fetchCardOracleText } from "./card-text";
 import { allCards, decks, type PlaneDeck } from "./data/decks";
-import { advancePlane, beginNextTurn, createGame, rollPlanarDie } from "./game";
+import { advancePlane, createGame } from "./game";
 
 const initialDeck = decks.find((deck) => deck.id === "all-official-cards") ?? decks[0];
 
@@ -12,17 +13,57 @@ function cardReference(name: string): string {
   return `https://scryfall.com/search?q=${encodeURIComponent(`!"${name}"`)}`;
 }
 
-function rollCostLabel(cost: number): string {
-  return cost === 0 ? "Free" : `${cost} mana`;
-}
+type CardTextState =
+  | { cardName: string; status: "loading" }
+  | { cardName: string; status: "error" }
+  | { cardName: string; status: "loaded"; text: string };
 
 export default function App() {
   const [selectedDeckId, setSelectedDeckId] = useState(initialDeck.id);
   const [game, setGame] = useState(() => createGame(initialDeck));
-  const [notice, setNotice] = useState("Your planar deck is ready. Let the chaos begin.");
+  const [notice, setNotice] = useState(
+    "Roll your physical planar die. Use the button when you roll the planeswalk symbol.",
+  );
+  const [cardText, setCardText] = useState<CardTextState>({
+    cardName: "",
+    status: "loading",
+  });
+  const [cardTextRetry, setCardTextRetry] = useState(0);
+  const cardTextCache = useRef(new Map<string, string>());
   const selectedDeck = decks.find((deck) => deck.id === selectedDeckId) ?? initialDeck;
   const planeCount = selectedDeck.cards.filter((card) => card.kind === "plane").length;
   const phenomenonCount = selectedDeck.cards.length - planeCount;
+
+  useEffect(() => {
+    const cardName = game.currentCard.name;
+    const cachedText = cardTextCache.current.get(cardName);
+    if (cachedText !== undefined) {
+      setCardText({ cardName, status: "loaded", text: cachedText });
+      return;
+    }
+
+    const controller = new AbortController();
+    setCardText({ cardName, status: "loading" });
+
+    const requestDelay = window.setTimeout(() => {
+      void fetchCardOracleText(cardName, controller.signal)
+        .then((text) => {
+          if (controller.signal.aborted) return;
+
+          cardTextCache.current.set(cardName, text);
+          setCardText({ cardName, status: "loaded", text });
+        })
+        .catch(() => {
+          if (controller.signal.aborted) return;
+          setCardText({ cardName, status: "error" });
+        });
+    }, 150);
+
+    return () => {
+      window.clearTimeout(requestDelay);
+      controller.abort();
+    };
+  }, [game.currentCard.name, cardTextRetry]);
 
   function startGame(deck: PlaneDeck = selectedDeck) {
     setSelectedDeckId(deck.id);
@@ -39,26 +80,6 @@ export default function App() {
     startGame(deck);
   }
 
-  function handleRoll() {
-    const nextGame = rollPlanarDie(game);
-    setGame(nextGame);
-
-    const roll = nextGame.lastRoll;
-    if (!roll) return;
-
-    if (roll.outcome === "blank") {
-      setNotice(`Blank face. ${rollCostLabel(roll.cost)} planar die roll.`);
-    } else if (roll.outcome === "chaos") {
-      setNotice(
-        game.currentCard.kind === "phenomenon"
-          ? "Chaos face. Check the phenomenon reference for its effect."
-          : `Chaos ensues on ${game.currentCard.name}. Resolve its chaos ability.`,
-      );
-    } else {
-      setNotice(`Planeswalked from ${roll.walkedFrom} to ${nextGame.currentCard.name}.`);
-    }
-  }
-
   function handlePlaneswalk() {
     const previousCard = game.currentCard;
     const nextGame = advancePlane(game);
@@ -66,14 +87,10 @@ export default function App() {
     setNotice(`Planeswalked from ${previousCard.name} to ${nextGame.currentCard.name}.`);
   }
 
-  function handleNextTurn() {
-    setGame(beginNextTurn(game));
-    setNotice(`Turn ${game.turn + 1}. Your planar die roll cost is reset.`);
-  }
-
   const currentReference = cardReference(game.currentCard.name);
-  const nextRollCost = rollCostLabel(game.rollsThisTurn);
   const currentIndex = ((game.cardsVisited - 1) % selectedDeck.cards.length) + 1;
+  const currentCardText =
+    cardText.cardName === game.currentCard.name ? cardText : null;
 
   return (
     <main className="app-shell">
@@ -104,7 +121,7 @@ export default function App() {
           <p className="eyebrow">A MULTIVERSE IN MOTION</p>
           <h1>Where will the chaos take you?</h1>
           <p className="intro-copy">
-            Pick a planar deck, roll the die, and let the Blind Eternities decide.
+            Pick a planar deck, roll your physical planar die, and let the Blind Eternities decide.
           </p>
         </div>
         <div className="edition-mark" aria-hidden="true">
@@ -193,12 +210,43 @@ export default function App() {
             </div>
           </article>
 
+          <section className="card-text-panel" aria-label="Current card text">
+            <div className="card-text-heading">
+              <div>
+                <span className="section-index">CARD TEXT</span>
+                <h3>{game.currentCard.kind === "plane" ? "Plane ability" : "Phenomenon effect"}</h3>
+              </div>
+              <a href={currentReference} target="_blank" rel="noreferrer">
+                Scryfall <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+            <div
+              className="card-text-content"
+              aria-live="polite"
+              aria-busy={!currentCardText || currentCardText.status === "loading"}
+            >
+              {!currentCardText || currentCardText.status === "loading" ? (
+                <p className="card-text-state">Loading card text from Scryfall…</p>
+              ) : currentCardText.status === "error" ? (
+                <div className="card-text-error">
+                  <p>Card text couldn’t be loaded. Check the Scryfall reference or try again.</p>
+                  <button
+                    className="card-text-retry"
+                    onClick={() => setCardTextRetry((retry) => retry + 1)}
+                  >
+                    Retry
+                  </button>
+                </div>
+              ) : (
+                <p className="card-text-body">{currentCardText.text}</p>
+              )}
+            </div>
+          </section>
+
           {game.currentCard.kind === "phenomenon" && (
             <div className="phenomenon-note">
               <span className="note-icon" aria-hidden="true">!</span>
-              <p>
-                Resolve this phenomenon using its card reference, then planeswalk away.
-              </p>
+              <p>Resolve this phenomenon, then continue planeswalking.</p>
               <a href={currentReference} target="_blank" rel="noreferrer" aria-label="Open phenomenon card details">
                 ↗
               </a>
@@ -228,56 +276,42 @@ export default function App() {
           </details>
         </div>
 
-        <aside className="die-panel">
-          <div className="panel-heading die-heading">
+        <aside className="journey-panel">
+          <div className="panel-heading journey-heading">
             <div>
               <span className="section-index">04</span>
-              <h2>The planar die</h2>
+              <h2>Plane travel</h2>
             </div>
-            <span className="turn-label">TURN {String(game.turn).padStart(2, "0")}</span>
+            <span className="journey-position">
+              {String(currentIndex).padStart(2, "0")} / {String(selectedDeck.cards.length).padStart(2, "0")}
+            </span>
           </div>
 
-          <div className={`die-face ${game.lastRoll?.outcome ?? "idle"}`} aria-label="Planar die">
-            {game.lastRoll?.outcome === "chaos" ? (
-              <span className="die-glyph" aria-hidden="true">✶</span>
-            ) : game.lastRoll?.outcome === "planeswalk" ? (
-              <span className="die-glyph" aria-hidden="true">↗</span>
-            ) : null}
+          <div className="journey-symbol" aria-hidden="true">
+            <span className="journey-orbit journey-orbit-one" />
+            <span className="journey-orbit journey-orbit-two" />
+            <span className="journey-core">↗</span>
           </div>
-
-          <p className="roll-cost">
-            NEXT ROLL <span>{nextRollCost}</span>
+          <p className="journey-label">ROLL A PHYSICAL PLANAR DIE</p>
+          <p className="journey-description">
+            When it shows the planeswalk symbol, advance to the next card in this deck.
           </p>
-          <button className="button button-primary roll-button" onClick={handleRoll}>
-            Roll planar die <span aria-hidden="true">↗</span>
+          <button className="button button-primary journey-button" onClick={handlePlaneswalk}>
+            {game.currentCard.kind === "phenomenon" ? "Continue planeswalking" : "Planeswalk"}
+            <span aria-hidden="true">↗</span>
           </button>
-          <p className="die-note">First roll each turn is free. Each additional roll costs one more mana.</p>
 
-          <div className="roll-result" aria-live="polite">
-            <span className="result-spark" aria-hidden="true">✦</span>
+          <div className="journey-status" aria-live="polite">
+            <span aria-hidden="true">✦</span>
             <p>{notice}</p>
           </div>
 
-          <div className="die-legend" aria-label="Planar die faces">
-            <span><i className="legend-blank" /> Blank</span>
-            <span><i className="legend-chaos">✶</i> Chaos</span>
-            <span><i className="legend-walk">↗</i> Planeswalk</span>
-          </div>
-
-          <div className="panel-actions">
-            <button className="button button-outline" onClick={handlePlaneswalk}>
-              <span aria-hidden="true">↗</span>
-              {game.currentCard.kind === "phenomenon" ? "Continue planeswalking" : "Planeswalk"}
-            </button>
-            <button className="button button-quiet" onClick={handleNextTurn}>
-              End turn <span aria-hidden="true">→</span>
-            </button>
-          </div>
+          <p className="journey-footnote">The physical die stays at your table; this app tracks the planar deck.</p>
         </aside>
       </section>
 
       <footer className="app-footer">
-        <p>Card names and types are included for gameplay. Open a card reference for its official text and art.</p>
+        <p>Card text is fetched from Scryfall on demand. Artwork isn’t bundled in the app.</p>
         <span>{allCards.length} OFFICIAL PLANAR CARDS <i /> {decks.length - 1} DECKS</span>
       </footer>
     </main>
