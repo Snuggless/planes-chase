@@ -1,8 +1,8 @@
 # Planes Chase
 
-A responsive Planechase companion for playing Magic: The Gathering. Choose an official planar deck, reveal a starting card, roll the planar die, and track turns and additional-roll costs.
+A responsive Planechase companion for playing Magic: The Gathering. Choose an official planar deck, reveal a starting card, and use your physical planar die to decide when to advance.
 
-The app bundles **151 official Plane and Phenomenon names** and **17 preconstructed planar decks** from Planechase, Planechase 2012, March of the Machine Commander, and Doctor Who Commander. The complete card pool is also available as a deck. Card rules text and artwork are not bundled; each card links to its Scryfall reference.
+The app bundles **151 official Plane and Phenomenon names** and **17 preconstructed planar decks** from Planechase, Planechase 2012, March of the Machine Commander, and Doctor Who Commander. The complete card pool is also available as a deck. Card text is fetched on demand from Scryfall and cached in memory for the session; artwork is not bundled.
 
 ## Run locally
 
@@ -61,7 +61,7 @@ Vite discovers every deck JSON file automatically. The loader validates the sche
 
 ## Card data
 
-The bundled catalog contains card names and whether each is a Plane or Phenomenon. It does not contain rules text or artwork. Card details open on Scryfall.
+The bundled catalog contains card names and whether each is a Plane or Phenomenon. When a card is revealed, the app requests its text from the Scryfall API. If that request fails, use the card's Scryfall reference or retry. Requests are delayed briefly and cached in memory to avoid unnecessary API calls. The app does not bundle rules text or artwork.
 
 Sources for the official card pool and preconstructed lists include [Scryfall's Planechase Anthology gallery](https://scryfall.com/sets/opca), Wizards of the Coast's [Planechase theme deck lists](https://magic.wizards.com/en/articles/archive/planechase-theme-decks-2009-08-31) and [Planechase 2012 deck lists](https://magic.wizards.com/en/news/feature/planechase-2012-decklists-2012-05-28), and the official [March of the Machine Planechase](https://magic.wizards.com/en/news/card-image-gallery/march-of-the-machine-planechase) and [Doctor Who](https://magic.wizards.com/en/news/card-image-gallery/doctor-who) card galleries.
 

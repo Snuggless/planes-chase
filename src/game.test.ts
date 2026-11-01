@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { advancePlane, beginNextTurn, createGame, rollPlanarDie, shuffle } from "./game";
+import { advancePlane, createGame, shuffle } from "./game";
 import type { PlaneDeck } from "./data/decks";
 
 const testDeck: PlaneDeck = {
@@ -28,7 +28,6 @@ describe("planar game", () => {
 
     expect(game.currentCard.name).toBe("Plane 2");
     expect(game.queue).toHaveLength(9);
-    expect(game.turn).toBe(1);
   });
 
   it("cycles through the deck without losing or repeating cards early", () => {
@@ -46,35 +45,13 @@ describe("planar game", () => {
     expect(game.currentCard.name).toBe(originalOrder[0]);
   });
 
-  it("rolls a six-sided die with four blank, one chaos, and one planeswalk face", () => {
+  it("advances the deck only when requested", () => {
     const game = createGame(testDeck, () => 0);
+    const nextCardName = game.queue[0]?.name;
+    const nextGame = advancePlane(game);
 
-    expect(rollPlanarDie(game, () => 0).lastRoll?.outcome).toBe("blank");
-    expect(rollPlanarDie(game, () => 0.7).lastRoll?.outcome).toBe("chaos");
-    expect(rollPlanarDie(game, () => 0.99).lastRoll?.outcome).toBe("planeswalk");
-  });
-
-  it("automatically advances on a planeswalk result and charges increasing roll costs", () => {
-    const game = createGame(testDeck, () => 0);
-    const firstRoll = rollPlanarDie(game, () => 0);
-    const secondRoll = rollPlanarDie(firstRoll, () => 0.99);
-
-    expect(firstRoll.lastRoll?.cost).toBe(0);
-    expect(secondRoll.lastRoll).toMatchObject({
-      outcome: "planeswalk",
-      cost: 1,
-      walkedFrom: game.currentCard.name,
-    });
-    expect(secondRoll.currentCard.name).toBe(firstRoll.queue[0]?.name);
-    expect(secondRoll.rollsThisTurn).toBe(2);
-  });
-
-  it("resets the planar die cost when the next turn begins", () => {
-    const game = rollPlanarDie(createGame(testDeck, () => 0), () => 0);
-    const nextTurn = beginNextTurn(game);
-
-    expect(nextTurn.turn).toBe(2);
-    expect(nextTurn.rollsThisTurn).toBe(0);
-    expect(nextTurn.lastRoll).toBeNull();
+    expect(nextGame.currentCard.name).toBe(nextCardName);
+    expect(nextGame.cardsVisited).toBe(2);
+    expect(nextGame.queue).toHaveLength(9);
   });
 });
