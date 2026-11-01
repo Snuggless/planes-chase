@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "timey-wimey",
+  "name": "Timey-Wimey",
+  "edition": "Doctor Who Commander (2023)",
+  "description": "Nine planes and one phenomenon from the preconstructed deck.",
+  "cards": [
+    "Amy's Home",
+    "Bad Wolf Bay",
+    "Human-Time Lord Meta-Crisis",
+    "Lake Silencio",
+    "New New York",
+    "Ood Sphere",
+    "Pompeii",
+    "Prime Minister's Cabinet Room",
+    "The Lux Foundation Library",
+    "Two Streams Facility"
+  ]
+}

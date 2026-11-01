@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "savage-auras",
+  "name": "Savage Auras",
+  "edition": "Planechase 2012",
+  "description": "Eight planes and two phenomena from the original product deck.",
+  "cards": [
+    "Akoum",
+    "Aretopolis",
+    "Astral Arena",
+    "Edge of Malacol",
+    "Grove of the Dreampods",
+    "Kessig",
+    "Onakke Catacomb",
+    "Talon Gates",
+    "Chaotic Aether",
+    "Planewide Disaster"
+  ]
+}

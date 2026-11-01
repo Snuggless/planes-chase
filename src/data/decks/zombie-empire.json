@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "zombie-empire",
+  "name": "Zombie Empire",
+  "edition": "Planechase (2009)",
+  "description": "The original ten-card planar deck.",
+  "cards": [
+    "The Aether Flues",
+    "Cliffside Market",
+    "The Dark Barony",
+    "Fields of Summer",
+    "The Fourth Sphere",
+    "Grixis",
+    "Lethe Lake",
+    "Pools of Becoming",
+    "Raven's Run",
+    "Sea of Sand"
+  ]
+}

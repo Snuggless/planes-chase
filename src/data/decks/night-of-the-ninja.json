@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "night-of-the-ninja",
+  "name": "Night of the Ninja",
+  "edition": "Planechase 2012",
+  "description": "Eight planes and two phenomena from the original product deck.",
+  "cards": [
+    "Bloodhill Bastion",
+    "Gavony",
+    "Glen Elendra",
+    "Kharasha Foothills",
+    "Norn's Dominion",
+    "Quicksilver Sea",
+    "Takenuma",
+    "The Zephyr Maze",
+    "Interplanar Tunnel",
+    "Morphic Tide"
+  ]
+}

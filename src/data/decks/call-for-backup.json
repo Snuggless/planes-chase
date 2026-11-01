@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "call-for-backup",
+  "name": "Call for Backup",
+  "edition": "March of the Machine Commander (2023)",
+  "description": "Nine planes and one phenomenon from the preconstructed deck.",
+  "cards": [
+    "Jund",
+    "Kharasha Foothills",
+    "Grove of the Dreampods",
+    "Chaotic Aether",
+    "Bloodhill Bastion",
+    "Towashi",
+    "The Great Aerie",
+    "The Golden City of Orazca",
+    "Megaflora Jungle",
+    "Riptide Island"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "metallic-dreams",
+  "name": "Metallic Dreams",
+  "edition": "Planechase (2009)",
+  "description": "The original ten-card planar deck.",
+  "cards": [
+    "Bant",
+    "The Eon Fog",
+    "Goldmeadow",
+    "The Hippodrome",
+    "Krosa",
+    "The Maelstrom",
+    "Minamo",
+    "Panopticon",
+    "Sanctum of Serra",
+    "Undercity Reaches"
+  ]
+}
