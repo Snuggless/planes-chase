@@ -1,0 +1,131 @@
+{
+  "schemaVersion": 1,
+  "id": "light-and-darkness",
+  "name": "Light and Darkness",
+  "edition": "Custom",
+  "description": "A celestial host and Halloween horrors wage war across the Blind Eternities.",
+  "cards": [
+    "Sunspire, Hall of the Host",
+    "Choir of Seven Stars",
+    "Dawnward Basilica",
+    "Reliquary of Mercy",
+    "Sevenfold Gate",
+    "Crown of First Light",
+    "Celestial Musterfield",
+    "Pilgrim's Skyroad",
+    "Sanctuary of the Unbroken",
+    "Hollowmoon Cemetery",
+    "Gloamwood, the Crooked Mile",
+    "Harvest of the Hollow",
+    "Lanternless Village",
+    "Manor of the Pale Count",
+    "The Pumpkin Crown",
+    "The Witching Orchard",
+    "Briar-Sworn Crossroads",
+    "The Midnight Masquerade",
+    "The Parade of Lost Souls",
+    "Eclipse of the Harvest Moon"
+  ],
+  "customCards": [
+    {
+      "name": "Sunspire, Hall of the Host",
+      "kind": "plane",
+      "rulesText": "At the beginning of your end step, if you attacked with one or more creatures this turn, create a 1/1 white Soldier creature token.\nWhenever chaos ensues, create a 4/4 white Angel creature token with flying."
+    },
+    {
+      "name": "Choir of Seven Stars",
+      "kind": "plane",
+      "rulesText": "Creature tokens you control have vigilance.\nWhenever chaos ensues, create two 1/1 white Spirit creature tokens with flying."
+    },
+    {
+      "name": "Dawnward Basilica",
+      "kind": "plane",
+      "rulesText": "Whenever you gain life, put a +1/+1 counter on up to one target creature you control. This ability triggers only once each turn.\nWhenever chaos ensues, you gain 3 life and draw a card."
+    },
+    {
+      "name": "Reliquary of Mercy",
+      "kind": "plane",
+      "rulesText": "Whenever a nontoken creature you control dies, you may pay {1}. If you do, create a 1/1 white Spirit creature token with flying.\nWhenever chaos ensues, return target creature card with mana value 2 or less from your graveyard to your hand."
+    },
+    {
+      "name": "Sevenfold Gate",
+      "kind": "plane",
+      "rulesText": "Creatures you control with flying get +1/+0.\nWhenever chaos ensues, tap up to one target creature. It doesn't untap during its controller's next untap step."
+    },
+    {
+      "name": "Crown of First Light",
+      "kind": "plane",
+      "rulesText": "At the beginning of combat on your turn, up to one target creature you control gains flying until end of turn.\nWhenever chaos ensues, put a +1/+1 counter on each of up to two target creatures."
+    },
+    {
+      "name": "Celestial Musterfield",
+      "kind": "plane",
+      "rulesText": "Whenever one or more creatures you control attack, you gain 1 life.\nWhenever chaos ensues, creatures you control get +2/+2 until end of turn."
+    },
+    {
+      "name": "Pilgrim's Skyroad",
+      "kind": "plane",
+      "rulesText": "Whenever a creature enters the battlefield under your control, if you cast it from your hand, scry 1.\nWhenever chaos ensues, search your library for a basic Plains card, reveal it, put it into your hand, then shuffle."
+    },
+    {
+      "name": "Sanctuary of the Unbroken",
+      "kind": "plane",
+      "rulesText": "Whenever a creature you control with a +1/+1 counter on it attacks, it gains lifelink until end of turn.\nWhenever chaos ensues, put a +1/+1 counter on target creature. You gain 2 life."
+    },
+    {
+      "name": "Hollowmoon Cemetery",
+      "kind": "plane",
+      "rulesText": "At the beginning of your end step, if a creature died this turn, each opponent loses 1 life and you gain 1 life.\nWhenever chaos ensues, return target creature card from your graveyard to your hand."
+    },
+    {
+      "name": "Gloamwood, the Crooked Mile",
+      "kind": "plane",
+      "rulesText": "Whenever one or more Zombies or Spirits you control attack, each opponent loses 1 life.\nWhenever chaos ensues, create a tapped 2/2 black Zombie creature token."
+    },
+    {
+      "name": "Harvest of the Hollow",
+      "kind": "plane",
+      "rulesText": "Whenever a nontoken creature dies, its controller mills two cards.\nWhenever chaos ensues, each player sacrifices a creature. Each player who can't loses 3 life."
+    },
+    {
+      "name": "Lanternless Village",
+      "kind": "plane",
+      "rulesText": "Creatures your opponents control enter the battlefield tapped.\nWhenever chaos ensues, tap up to two target creatures. Those creatures don't untap during their controllers' next untap steps."
+    },
+    {
+      "name": "Manor of the Pale Count",
+      "kind": "plane",
+      "rulesText": "Whenever an opponent discards a card, that player loses 1 life.\nWhenever chaos ensues, each opponent discards a card. You draw a card for each card discarded this way."
+    },
+    {
+      "name": "The Pumpkin Crown",
+      "kind": "plane",
+      "rulesText": "Whenever one or more tokens you control leave the battlefield, each opponent loses 1 life.\nWhenever chaos ensues, create a 2/2 black Zombie creature token and a Food token."
+    },
+    {
+      "name": "The Witching Orchard",
+      "kind": "plane",
+      "rulesText": "Whenever you sacrifice a permanent, scry 1.\nWhenever chaos ensues, create a 1/1 black Bat creature token with flying for each opponent."
+    },
+    {
+      "name": "Briar-Sworn Crossroads",
+      "kind": "plane",
+      "rulesText": "Whenever you cast a creature spell, you lose 1 life and draw a card.\nWhenever chaos ensues, return target creature card from your graveyard to the battlefield tapped."
+    },
+    {
+      "name": "The Midnight Masquerade",
+      "kind": "plane",
+      "rulesText": "Whenever a creature attacks you, its controller loses 1 life.\nWhenever chaos ensues, create a 1/1 black Vampire creature token with lifelink for each opponent."
+    },
+    {
+      "name": "The Parade of Lost Souls",
+      "kind": "phenomenon",
+      "rulesText": "When you encounter The Parade of Lost Souls, each player sacrifices a creature. For each creature sacrificed this way, its controller creates a 1/1 white Spirit creature token with flying."
+    },
+    {
+      "name": "Eclipse of the Harvest Moon",
+      "kind": "phenomenon",
+      "rulesText": "When you encounter Eclipse of the Harvest Moon, exile up to one target creature card from each graveyard. For each card exiled this way, create a 2/2 black Zombie creature token."
+    }
+  ]
+}
