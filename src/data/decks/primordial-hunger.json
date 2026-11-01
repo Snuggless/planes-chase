@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "primordial-hunger",
+  "name": "Primordial Hunger",
+  "edition": "Planechase 2012",
+  "description": "Eight planes and two phenomena from the original product deck.",
+  "cards": [
+    "Furnace Layer",
+    "Jund",
+    "Kilnspire District",
+    "Lair of the Ashen Idol",
+    "Orochi Colony",
+    "Prahv",
+    "Selesnya Loft Gardens",
+    "Stensia",
+    "Reality Shaping",
+    "Spatial Merging"
+  ]
+}

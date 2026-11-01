@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "blast-from-the-past",
+  "name": "Blast from the Past",
+  "edition": "Doctor Who Commander (2023)",
+  "description": "Nine planes and one phenomenon from the preconstructed deck.",
+  "cards": [
+    "Antarctic Research Base",
+    "Caught in a Parallel Universe",
+    "Coal Hill School",
+    "Gardens of Tranquil Repose",
+    "Spectrox Mines",
+    "TARDIS Bay",
+    "The Cave of Skulls",
+    "The Cheetah Planet",
+    "The Pyramid of Mars",
+    "UNIT Headquarters"
+  ]
+}

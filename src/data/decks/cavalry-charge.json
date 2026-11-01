@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "cavalry-charge",
+  "name": "Cavalry Charge",
+  "edition": "March of the Machine Commander (2023)",
+  "description": "Nine planes and one phenomenon from the preconstructed deck.",
+  "cards": [
+    "The Caldaia",
+    "Inys Haen",
+    "Littjara",
+    "Paliano",
+    "Unyaro",
+    "Mutual Epiphany",
+    "Orochi Colony",
+    "Sokenzan",
+    "Truga Jungle",
+    "Turri Island"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "growing-threat",
+  "name": "Growing Threat",
+  "edition": "March of the Machine Commander (2023)",
+  "description": "Nine planes and one phenomenon from the preconstructed deck.",
+  "cards": [
+    "Esper",
+    "Ketria",
+    "Naktamun",
+    "Nyx",
+    "Panopticon",
+    "Spatial Merging",
+    "The Aether Flues",
+    "The Great Forest",
+    "The Pit",
+    "Undercity Reaches"
+  ]
+}

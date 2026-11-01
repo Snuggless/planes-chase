@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "chaos-reigns",
+  "name": "Chaos Reigns",
+  "edition": "Planechase 2012",
+  "description": "Eight planes and two phenomena from the original product deck.",
+  "cards": [
+    "Grand Ossuary",
+    "Hedron Fields of Agadeem",
+    "Mount Keralia",
+    "Nephalia",
+    "Orzhova",
+    "Trail of the Mage-Rings",
+    "Truga Jungle",
+    "Windriddle Palaces",
+    "Mutual Epiphany",
+    "Time Distortion"
+  ]
+}

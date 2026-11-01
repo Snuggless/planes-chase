@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "masters-of-evil",
+  "name": "Masters of Evil",
+  "edition": "Doctor Who Commander (2023)",
+  "description": "Nine planes and one phenomenon from the preconstructed deck.",
+  "cards": [
+    "Aplan Mortarium",
+    "Bowie Base One",
+    "City of the Daleks",
+    "Dalek Intensive Care",
+    "Hotel of Fears",
+    "Mondassian Colony Ship",
+    "The Doctor's Tomb",
+    "The Matrix of Time",
+    "The Moonbase",
+    "Unleash the Flux"
+  ]
+}

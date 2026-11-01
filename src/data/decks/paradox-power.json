@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "paradox-power",
+  "name": "Paradox Power",
+  "edition": "Doctor Who Commander (2023)",
+  "description": "Nine planes and one phenomenon from the preconstructed deck.",
+  "cards": [
+    "Besieged Viking Village",
+    "Fixed Point in Time",
+    "Kerblam! Warehouse",
+    "North Pole Research Base",
+    "Singing Towers of Darillium",
+    "Stormcage Containment Facility",
+    "Temple of Atropos",
+    "The Dining Car",
+    "The Doctor's Childhood Barn",
+    "The Drum, Mining Facility"
+  ]
+}

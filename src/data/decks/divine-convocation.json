@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "divine-convocation",
+  "name": "Divine Convocation",
+  "edition": "March of the Machine Commander (2023)",
+  "description": "Nine planes and one phenomenon from the preconstructed deck.",
+  "cards": [
+    "Enigma Ridges",
+    "The Fertile Lands of Saulvinia",
+    "Norn's Dominion",
+    "Strixhaven",
+    "Valor's Reach",
+    "Gavony",
+    "Hedron Fields of Agadeem",
+    "Krosa",
+    "Reality Shaping",
+    "Stensia"
+  ]
+}

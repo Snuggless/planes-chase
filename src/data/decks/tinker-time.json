@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "id": "tinker-time",
+  "name": "Tinker Time",
+  "edition": "March of the Machine Commander (2023)",
+  "description": "Nine planes and one phenomenon from the preconstructed deck.",
+  "cards": [
+    "Ghirapur",
+    "New Argive",
+    "Ten Wizards Mountain",
+    "The Western Cloud",
+    "The Wilds",
+    "Glimmervoid Basin",
+    "Isle of Vesuva",
+    "Planewide Disaster",
+    "Selesnya Loft Gardens",
+    "Stronghold Furnace"
+  ]
+}
