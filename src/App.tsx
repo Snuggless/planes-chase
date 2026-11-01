@@ -33,9 +33,16 @@ export default function App() {
   const selectedDeck = decks.find((deck) => deck.id === selectedDeckId) ?? initialDeck;
   const planeCount = selectedDeck.cards.filter((card) => card.kind === "plane").length;
   const phenomenonCount = selectedDeck.cards.length - planeCount;
+  const currentCardIsCustom = game.currentCard.rulesText !== undefined;
 
   useEffect(() => {
     const cardName = game.currentCard.name;
+    const rulesText = game.currentCard.rulesText;
+    if (rulesText !== undefined) {
+      setCardText({ cardName, status: "loaded", text: rulesText });
+      return;
+    }
+
     const cachedText = cardTextCache.current.get(cardName);
     if (cachedText !== undefined) {
       setCardText({ cardName, status: "loaded", text: cachedText });
@@ -63,7 +70,7 @@ export default function App() {
       window.clearTimeout(requestDelay);
       controller.abort();
     };
-  }, [game.currentCard.name, cardTextRetry]);
+  }, [game.currentCard.name, game.currentCard.rulesText, cardTextRetry]);
 
   function startGame(deck: PlaneDeck = selectedDeck) {
     setSelectedDeckId(deck.id);
@@ -198,9 +205,13 @@ export default function App() {
                   {game.currentCard.kind === "plane" ? "YOU ARE TRAVELING TO" : "YOU HAVE ENCOUNTERED"}
                 </span>
                 <h3>{game.currentCard.name}</h3>
-                <a className="card-reference" href={currentReference} target="_blank" rel="noreferrer">
-                  View card details <span aria-hidden="true">↗</span>
-                </a>
+                {currentCardIsCustom ? (
+                  <span className="card-reference">Custom card</span>
+                ) : (
+                  <a className="card-reference" href={currentReference} target="_blank" rel="noreferrer">
+                    View card details <span aria-hidden="true">↗</span>
+                  </a>
+                )}
               </div>
               <div className="card-bottomline">
                 <span>THE BLIND ETERNITIES</span>
@@ -216,9 +227,13 @@ export default function App() {
                 <span className="section-index">CARD TEXT</span>
                 <h3>{game.currentCard.kind === "plane" ? "Plane ability" : "Phenomenon effect"}</h3>
               </div>
-              <a href={currentReference} target="_blank" rel="noreferrer">
-                Scryfall <span aria-hidden="true">↗</span>
-              </a>
+              {currentCardIsCustom ? (
+                <span className="card-text-source">CUSTOM DESIGN</span>
+              ) : (
+                <a href={currentReference} target="_blank" rel="noreferrer">
+                  Scryfall <span aria-hidden="true">↗</span>
+                </a>
+              )}
             </div>
             <div
               className="card-text-content"
@@ -226,7 +241,9 @@ export default function App() {
               aria-busy={!currentCardText || currentCardText.status === "loading"}
             >
               {!currentCardText || currentCardText.status === "loading" ? (
-                <p className="card-text-state">Loading card text from Scryfall…</p>
+                <p className="card-text-state">
+                  {currentCardIsCustom ? "Loading custom card text…" : "Loading card text from Scryfall…"}
+                </p>
               ) : currentCardText.status === "error" ? (
                 <div className="card-text-error">
                   <p>Card text couldn’t be loaded. Check the Scryfall reference or try again.</p>
@@ -247,9 +264,11 @@ export default function App() {
             <div className="phenomenon-note">
               <span className="note-icon" aria-hidden="true">!</span>
               <p>Resolve this phenomenon, then continue planeswalking.</p>
-              <a href={currentReference} target="_blank" rel="noreferrer" aria-label="Open phenomenon card details">
-                ↗
-              </a>
+              {!currentCardIsCustom && (
+                <a href={currentReference} target="_blank" rel="noreferrer" aria-label="Open phenomenon card details">
+                  ↗
+                </a>
+              )}
             </div>
           )}
 
@@ -267,9 +286,13 @@ export default function App() {
                   <span className="list-number">{String(index + 1).padStart(2, "0")}</span>
                   <span className="list-card-name">{card.name}</span>
                   <span className={`list-kind ${card.kind}`}>{card.kind}</span>
-                  <a href={cardReference(card.name)} target="_blank" rel="noreferrer" aria-label={`View ${card.name} card details`}>
-                    ↗
-                  </a>
+                  {card.rulesText ? (
+                    <span className="list-custom-label">custom</span>
+                  ) : (
+                    <a href={cardReference(card.name)} target="_blank" rel="noreferrer" aria-label={`View ${card.name} card details`}>
+                      ↗
+                    </a>
+                  )}
                 </li>
               ))}
             </ol>
@@ -311,7 +334,7 @@ export default function App() {
       </section>
 
       <footer className="app-footer">
-        <p>Card text is fetched from Scryfall on demand. Artwork isn’t bundled in the app.</p>
+        <p>Official card text is fetched from Scryfall; custom text is included with its deck. Artwork isn’t bundled.</p>
         <span>{allCards.length} OFFICIAL PLANAR CARDS <i /> {decks.length - 1} DECKS</span>
       </footer>
     </main>

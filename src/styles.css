@@ -678,7 +678,8 @@ h1 {
   font-weight: 500;
 }
 
-.card-text-heading a {
+.card-text-heading a,
+.card-text-source {
   flex: 0 0 auto;
   color: #a9c5aa;
   font-family: var(--mono);
@@ -861,6 +862,14 @@ h1 {
   font-size: 13px;
   text-align: right;
   text-decoration: none;
+}
+
+.list-custom-label {
+  color: #819087;
+  font-family: var(--mono);
+  font-size: 8px;
+  text-align: right;
+  text-transform: uppercase;
 }
 
 .journey-panel {

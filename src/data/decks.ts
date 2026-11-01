@@ -5,6 +5,7 @@ export type CardKind = "plane" | "phenomenon";
 export interface PlaneCard {
   name: string;
   kind: CardKind;
+  rulesText?: string;
 }
 
 export interface PlaneDeck {
@@ -55,6 +56,42 @@ function parseCardCatalog(value: unknown): Map<string, PlaneCard> {
 
 const cardCatalog = parseCardCatalog(rawCardCatalog);
 
+function parseCustomCards(value: unknown, deckName: string): Map<string, PlaneCard> {
+  if (value === undefined) {
+    return new Map();
+  }
+
+  if (!Array.isArray(value)) {
+    throw new Error(`Deck "${deckName}" has an invalid customCards list.`);
+  }
+
+  const cards = new Map<string, PlaneCard>();
+  for (const card of value) {
+    if (
+      !isRecord(card) ||
+      typeof card.name !== "string" ||
+      card.name.trim().length === 0 ||
+      (card.kind !== "plane" && card.kind !== "phenomenon") ||
+      typeof card.rulesText !== "string" ||
+      card.rulesText.trim().length === 0
+    ) {
+      throw new Error(`Deck "${deckName}" contains an invalid custom card.`);
+    }
+
+    if (cardCatalog.has(card.name) || cards.has(card.name)) {
+      throw new Error(`Deck "${deckName}" contains a duplicate custom card: ${card.name}.`);
+    }
+
+    cards.set(card.name, {
+      name: card.name,
+      kind: card.kind,
+      rulesText: card.rulesText,
+    });
+  }
+
+  return cards;
+}
+
 function parseDeck(value: unknown, fileName: string): PlaneDeck {
   if (!isRecord(value)) {
     throw new Error(`Deck file ${fileName} must contain a JSON object.`);
@@ -80,6 +117,7 @@ function parseDeck(value: unknown, fileName: string): PlaneDeck {
     throw new Error(`Deck "${name}" must contain at least 10 cards.`);
   }
 
+  const customCards = parseCustomCards(value.customCards, name);
   const seen = new Set<string>();
   const resolvedCards = cards.map((cardName) => {
     if (typeof cardName !== "string" || seen.has(cardName)) {
@@ -87,13 +125,19 @@ function parseDeck(value: unknown, fileName: string): PlaneDeck {
     }
 
     seen.add(cardName);
-    const card = cardCatalog.get(cardName);
+    const card = cardCatalog.get(cardName) ?? customCards.get(cardName);
     if (!card) {
       throw new Error(`Deck "${name}" references unknown card "${cardName}".`);
     }
 
     return card;
   });
+
+  for (const customCardName of customCards.keys()) {
+    if (!seen.has(customCardName)) {
+      throw new Error(`Deck "${name}" defines custom card "${customCardName}" outside its card list.`);
+    }
+  }
 
   return {
     schemaVersion,

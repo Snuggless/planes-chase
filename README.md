@@ -2,7 +2,7 @@
 
 A responsive Planechase companion for playing Magic: The Gathering. Choose an official planar deck, reveal a starting card, and use your physical planar die to decide when to advance.
 
-The app bundles **151 official Plane and Phenomenon names** and **17 preconstructed planar decks** from Planechase, Planechase 2012, March of the Machine Commander, and Doctor Who Commander. The complete card pool is also available as a deck. Card text is fetched on demand from Scryfall and cached in memory for the session; artwork is not bundled.
+The app bundles **151 official Plane and Phenomenon names** and **17 preconstructed planar decks** from Planechase, Planechase 2012, March of the Machine Commander, and Doctor Who Commander. The complete official card pool is also available as a deck. Official card text is fetched on demand from Scryfall and cached in memory for the session; custom card text is stored in its deck file. Artwork is not bundled.
 
 ## Run locally
 
@@ -56,12 +56,30 @@ Deck requirements:
 - Include at least 10 unique card names in `cards`.
 - Card names must match entries in `src/data/cards.json`.
 - When introducing an official card that is not in the catalog, add its name to the appropriate `planes` or `phenomena` list in the same file.
+- For original cards, define each one in an optional `customCards` array in that deck file. Each entry needs a unique `name`, a `kind` of `plane` or `phenomenon`, and nonempty `rulesText`; include every custom card name in `cards`.
+
+For example, add custom definitions alongside the deck's `cards` list:
+
+```json
+{
+  "cards": ["Sunspire, Hall of the Host"],
+  "customCards": [
+    {
+      "name": "Sunspire, Hall of the Host",
+      "kind": "plane",
+      "rulesText": "Creatures you control with flying get +1/+0.\nWhenever chaos ensues, create a 4/4 white Angel creature token with flying."
+    }
+  ]
+}
+```
+
+Plane rules text should use the Planechase `Whenever chaos ensues` trigger; Phenomena should use `When you encounter [name]`. Custom text is displayed locally and does not use Scryfall lookup.
 
 Vite discovers every deck JSON file automatically. The loader validates the schema, deck size, duplicate names, and card references during build.
 
 ## Card data
 
-The bundled catalog contains card names and whether each is a Plane or Phenomenon. When a card is revealed, the app requests its text from the Scryfall API. If that request fails, use the card's Scryfall reference or retry. Requests are delayed briefly and cached in memory to avoid unnecessary API calls. The app does not bundle rules text or artwork.
+The bundled catalog contains official card names and whether each is a Plane or Phenomenon. When an official card is revealed, the app requests its text from the Scryfall API. If that request fails, use the card's Scryfall reference or retry. Requests are delayed briefly and cached in memory to avoid unnecessary API calls. Original card rules text is included with its custom deck; the app does not bundle artwork.
 
 Sources for the official card pool and preconstructed lists include [Scryfall's Planechase Anthology gallery](https://scryfall.com/sets/opca), Wizards of the Coast's [Planechase theme deck lists](https://magic.wizards.com/en/articles/archive/planechase-theme-decks-2009-08-31) and [Planechase 2012 deck lists](https://magic.wizards.com/en/news/feature/planechase-2012-decklists-2012-05-28), and the official [March of the Machine Planechase](https://magic.wizards.com/en/news/card-image-gallery/march-of-the-machine-planechase) and [Doctor Who](https://magic.wizards.com/en/news/card-image-gallery/doctor-who) card galleries.
 
